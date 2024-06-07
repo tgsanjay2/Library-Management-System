@@ -1,0 +1,256 @@
+<%@ page import = "java.sql.*" %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Books</title>
+    <style>
+        .content-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .book-data-input {
+            width: 90%;
+            border-radius: 15px;
+            background-color: #f2f2f2;
+            margin: auto;
+            padding: 40px;
+        }
+        .book-data-box {
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            display: flex;
+            flex-direction: column;
+        }
+        .book-data-field input {
+            border-radius: 5px;
+            padding: 10px;
+            width: 250px;
+            font-size: 16px;
+            background-color: #ffffff;
+            border: none;
+            color: rgb(0, 0, 0);
+            outline-style: none;
+        }
+        .book-data-input input:hover {
+            background-color: rgb(251, 251, 251);
+        }
+        .book-data-input button {
+            padding: 10px 30px;
+            width: 270px;
+            background-color: yellowgreen;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            border: none;
+        }
+        .book-data-input button:hover {
+            background-color: rgb(128, 156, 19);
+            color: white;
+            cursor: pointer;
+        }
+        .book-data-field {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-evenly;
+        }
+        .submit-style {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<script src="https://cdn.tailwindcss.com"></script>
+<body>
+<jsp:include page="includes/studentsidebar.jsp" />
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    String rollno = (String) session.getAttribute("rollno");
+    if (rollno == null) {
+%>
+        <script>document.location = './login.jsp';</script>
+<%
+    }
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/lms", "root", "");
+        String select = "SELECT * FROM students WHERE rollno=?";
+        PreparedStatement ps = con.prepareStatement(select);
+        ps.setString(1, rollno);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        String degree = rs.getString("degree");
+        String course = rs.getString("course");
+        String semester = rs.getString("semester");
+        String sql = "SELECT * FROM books_curriculum_location WHERE curriculum_degree=? AND curriculum_course=? AND curriculum_semester=?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, degree);
+        ps.setString(2, course);
+        ps.setString(3, semester);
+        rs = ps.executeQuery();
+%>
+<div class="mt-14 pt-5 ml-64">
+    <div class="content-container">
+        <div class="book-data-input">
+            <div class="text-center text-3xl text-semibold mb-5 italic">Search Book</div>
+            <div class="book-data-box">
+                <form method="post">
+                    <div class="form-container">
+                    <div class="book-data-field">
+                            <label>Subject Code</label>
+                            <input type="text" name="code" placeholder="Subject Code" id="code_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>ISBN</label>
+                            <input type="text" name="subj" placeholder="Subject Name" id="name_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>ISBN</label>
+                            <input type="number" name="isbn" placeholder="ISBN" id="isbn_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>Title</label>
+                            <input type="text" name="title" placeholder="Title" id="title_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>Author</label>
+                            <input type="text" name="author" placeholder="Author" id="author_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>Publisher</label>
+                            <input type="text" name="publisher" placeholder="Publisher" id="publisher_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>Edition</label>
+                            <input type="text" name="edition" placeholder="Edition" id="edition_input">
+                        </div>
+                        <div class="book-data-field">
+                            <label>Category</label>
+                            <input type="text" name="genre" placeholder="Category" id="genre_input">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overflow-x-auto shadow-md sm:rounded-lg mt-14 pt-5 ml-64">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-center">Subject Code</th>
+                <th scope="col" class="px-6 py-3 text-center">Subject Name</th>
+                <th scope="col" class="px-6 py-3 text-center">ISBN</th>
+                <th scope="col" class="px-6 py-3 text-center">Book Title</th>
+                <th scope="col" class="px-6 py-3 text-center">Author</th>
+                <th scope="col" class="px-6 py-3 text-center">Publisher</th>
+                <th scope="col" class="px-6 py-3 text-center">Edition</th>
+                <th scope="col" class="px-6 py-3 text-center">Available Copies</th>
+                <th scope="col" class="px-6 py-3 text-center">Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% while (rs.next()) { %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 book_details">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white subject_code">
+                        <%= rs.getString("curriculum_subject_code") %>
+                    </th>
+                    <td class="px-6 py-4 text-center subject_name">
+                        <%= rs.getString("curriculum_subject_name") %>
+                    </td>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white book_isbn">
+                        <%= rs.getString("book_isbn") %>
+                    </th>
+                    <td class="px-6 py-4 text-center book_title">
+                        <%= rs.getString("book_title") %>
+                    </td>
+                    <td class="px-6 py-4 text-center book_author">
+                        <%= rs.getString("book_author") %>
+                    </td>
+                    <td class="px-6 py-4 text-center book_publisher">
+                        <%= rs.getString("book_publisher") %>
+                    </td>
+                    <td class="px-6 py-4 text-center book_edition">
+                        <%= rs.getString("book_edition") %>
+                    </td>
+                    <input type="hidden" value="<%= rs.getString("book_genre") %>" class="book_genre">
+                    <td class="px-6 py-4 text-center">
+                        <%= rs.getString("book_availability") %>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <%= rs.getString("location_location") %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+<%
+        rs.close();
+        ps.close();
+        con.close();
+    } catch (ClassNotFoundException | SQLException e) {
+        out.println(e.getMessage());
+    }
+%>
+  <script>
+  function searchBooks() {
+	    const codeInput = document.getElementById('code_input').value.toLowerCase();
+	    const nameInput = document.getElementById('name_input').value.toLowerCase();
+	    const isbnInput = document.getElementById('isbn_input').value.toLowerCase();
+		const titleInput = document.getElementById('title_input').value.toLowerCase();
+		const authorInput = document.getElementById('author_input').value.toLowerCase();
+	    const editionInput = document.getElementById('edition_input').value.toLowerCase();
+	    const publisherInput = document.getElementById('publisher_input').value.toLowerCase();
+	    const genreInput = document.getElementById('genre_input').value.toLowerCase();
+
+	    const bookDetails = document.querySelectorAll('.book_details');
+
+	    bookDetails.forEach((book) => {
+	        const code = book.querySelector('.subject_code').textContent.toLowerCase();
+	        const name = book.querySelector('.subject_name').textContent.toLowerCase();
+	        const isbn = book.querySelector('.book_isbn').textContent.toLowerCase();
+	        const title = book.querySelector('.book_title').textContent.toLowerCase();
+	        const author = book.querySelector('.book_author').textContent.toLowerCase();
+	        const edition = book.querySelector('.book_edition').textContent.toLowerCase();
+	        const publisher = book.querySelector('.book_publisher').textContent.toLowerCase();
+	        const genre = book.querySelector('.book_genre').textContent.toLowerCase();
+
+	        const codeMatch = code.includes(codeInput) || !codeInput;
+	        const nameMatch = name.includes(nameInput) || !nameInput;
+	        const isbnMatch = isbn.includes(isbnInput) || !isbnInput;
+	        const titleMatch = title.includes(titleInput) || !titleInput;
+	        const authorMatch = author.includes(authorInput) || !authorInput;
+	        const editionMatch = edition.includes(editionInput) || !editionInput;
+	        const publisherMatch = publisher.includes(publisherInput) || !publisherInput;
+	        const genreMatch = genre.includes(genreInput) || !genreInput;
+
+	        if (codeMatch && nameMatch && isbnMatch && titleMatch && authorMatch && editionMatch && publisherMatch && genreMatch) {
+	            book.style.display = ''; 
+	        } else {
+	            book.style.display = 'none'; 
+	        }
+	    });
+	}
+
+	document.getElementById('isbn_input').addEventListener('input', searchBooks);
+	document.getElementById('title_input').addEventListener('input', searchBooks);
+	document.getElementById('author_input').addEventListener('input', searchBooks);
+	document.getElementById('edition_input').addEventListener('input', searchBooks);
+	document.getElementById('publisher_input').addEventListener('input', searchBooks);
+	document.getElementById('genre_input').addEventListener('input', searchBooks);
+	document.getElementById('code_input').addEventListener('input', searchBooks);
+	document.getElementById('name_input').addEventListener('input', searchBooks);
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .hero {
+    background: #f4f4f4;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+  }
+  
+  .hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  
+  .hero .btn {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .features {
+    padding: 50px 0;
+    background: #e2e2e2;
+  }
+  
+  .features h2 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .feature-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .login{
+    background: #f4f4f4;
+    display: flex;
+    justify-content: right;
+  }
+  .login-contents{
+    display: flex;
+    /* justify-content: space-; */
+  }
+  .card {
+    background: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 300px;
+    text-align: center;
+    transition: background 0.5s ease, transform 0.5s ease; 
+  }
+  
+  .card:hover {
+    background: #1b263b; 
+    color: white;
+    transform: scale(1.1); 
+  }
+  
+  .footer {
+    background: #1b263b; 
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footer a {
+    color: #b0c4de; 
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .footer-section {
+    flex: 1 1 300px;
+    padding: 30px;
+  }
+  
+  .footer-bottom {
+    margin-top: 20px;
+  }
+  
+
+  ul {
+    list-style: none;
+}
+
+header {
+  color: white;
+  padding: 10px;
+  text-align: right;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+nav ul li a:hover {
+  background: #333;
+  border-radius: 5px;
+}
+
+.carousel {
+  margin-top: 10px;
+}
+
+.slick-prev, .slick-next {
+  font-size: 24px; 
+  color: #007bff; 
+}
+
+.slick-prev:hover, .slick-next:hover {
+  color: #0056b3; 
+}
+
+.slick-dots {
+  bottom: 10px; 
+}
+
+.slick-dots li button {
+  font-size: 12px; 
+  background-color: transparent; 
+  border: 1px solid #007bff; 
+  width: 12px; 
+  height: 12px;
+  border-radius: 50%; 
+}
+
+.slick-dots li.slick-active button {
+  background-color: #007bff; 
+}
+
+.carousel {
+  margin-top: 50px; 
+  background-color: #f9f9f9; 
+  padding: 20px; 
+  border-radius: 10px; 
+}
+
+.carousel div {
+  padding: 20px; 
+  text-align: center; 
+  opacity: 1; 
+  transition: opacity 0.5s; 
+}
+
+.carousel p {
+  font-style: italic; 
+  font-size: 1.2em; 
+}
+
+.carousel .author {
+  margin-top: 10px; 
+  font-weight: bold; 
+  color: #555; 
+}
+
+.login-contents .btn{
+  outline : none;
+  margin-top: 0;
+  border-radius: 5px;
+  padding: auto;
+  background-color: #1b263b;
+  color:#f4f4f4;
+  margin:0 20px;
+  height: 25px;
+  width: 50px;
+  font-size: 22px;
+}
+
+.login-contents .btn1 {
+  padding-top: 10px;
+  color: #1b263b;
+  margin-right: 25px;
+  height: 25px;
+  width: 50px;
+  font-size: 22px;
+  text-align: center;
+}
+
+
+
+
+  
