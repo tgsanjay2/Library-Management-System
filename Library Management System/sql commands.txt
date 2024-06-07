@@ -1,0 +1,250 @@
+CREATE TABLE admin(
+userid int PRIMARY KEY,
+password varchar(20)
+);
+
+CREATE TABLE announcements(
+message_id int auto_increment PRIMARY KEY,
+message_title varchar(50),
+message_content varchar(500),
+);
+
+CREATE TABLE books(
+isbn int PRIMARY KEY,
+title varchar(50),
+author varchar(50),
+publisher varchar(50),
+edition varchar(50),
+genre varchar(30),
+no_of_copies int,
+availability int
+FOREIGN KEY(genre) REFERENCES location(genre)
+);
+
+CREATE TABLE curriculum(
+row_id int auto_increment PRIMARY KEY,
+degree varchar(5),
+course varchar(50),
+semester int,
+subject_code varchar(10),
+subject_name varchar(50)
+);
+
+CREATE TABLE curriculum_books(
+row_id_book int auto_increment PRIMARY KEY,
+subject_code varchar(10),
+isbn int,
+FOREIGN KEY(isbn) REFERENCES books(isbn),
+FOREIGN KEY(subject_code) REFERENCES curriculum_books(subject_code)
+);
+
+CREATE TABLE issue(
+issue_id int auto_increment PRIMARY KEY,
+rollno int not null,
+isbn int not null,
+issue_date date default current_timestamp(),
+return_date date,
+FOREIGN KEY(rollno) REFERENCES students(rollno),
+FOREIGN KEY(isbn) REFERENCES books(isbn)
+);
+
+CREATE TABLE location(
+genre varchar(30) PRIMARY KEY,
+location varchar(30)
+);
+
+CREATE TABLE readers(
+rollno int PRIMARY KEY,
+entry_time time default current_timestamp(),
+FOREIGN KEY(rollno) REFERENCES students(rollno)
+);
+
+CREATE TABLE students(
+rollno int PRIMARY KEY,
+firstname varchar(50) not null,
+lastname varchar(50),
+email varchar(50),
+phone int,
+password varchar(50),
+gender varchar(7),
+degree varchar(5),
+course varchar(50),
+semester int,
+fine int
+);
+
+
+INSERT INTO admin (userid, password) VALUES (1111, '2226');
+INSERT INTO admin (userid, password) VALUES (2024, '2024');
+
+
+INSERT INTO announcements (message_id, message_title, message_content) 
+VALUES (3, 'Change in Library Working hours', 'The library will be working from 8 am to 9pm. This will come into force from 19th May');
+
+INSERT INTO books (isbn, title, author, publisher, edition, genre, no_of_copies, availability) VALUES
+(1230, 'DBMS', 'Henry', 'Pearsons', '8', 'Computer', 7, 7),
+(1231, 'Computer Organisation and Design', 'David Patterson', 'Morgan', '10', 'Computer', 10, 8),
+(1232, 'Fundamentals of Data Structures', 'Ellis', 'Galgotia', '1', 'Computer', 10, 10),
+(1233, 'Web programming and Internet Technologies', 'Scobey', 'Jones', '2', 'Computer', 10, 10),
+(1234, 'Engineering Chemistry', 'Kothari', 'Mc Grawhill', '3', 'Chemistry', 4, 4),
+(1235, 'A text book of Engineering Chemistry', 'Dara', 'Chand Publications', '5', 'Chemistry', 10, 10),
+(1236, 'Digital Logic and Computer Design', 'Morris Mano', 'Prentice Hall', '6', 'Electrical', 5, 5),
+(1237, 'Electrical Engineering Fundamentals', 'Del Toro', 'Pearson', '5', 'Electrical', 10, 10),
+(1238, 'Water Supply Engineering', 'Punmia', 'Laxmi', '4', 'Civil', 10, 10),
+(1239, 'Surveying and Levelling', 'R.Subramanian', 'Oxford University Press', '4', 'Civil', 10, 10),
+(1240, 'Thermal Engineering', 'Mahesh Rathore', 'Mc Grawhill', '1', 'Mechanical', 7, 7),
+(1241, 'Theory of Machines and Mechanisms', 'Uicker', 'Oxford University Press', '3', 'Mechanical', 5, 5),
+(1242, 'Introduction to Physical Metallurgy', 'Sydney Avner', 'Prentice Hall', '2', 'Mechanical', 6, 6),
+(1243, 'Design of Machine Elements', 'Bhandari', 'Mc Grawhill', '4', 'Mechanical', 10, 10),
+(14789, 'Operating System Concepts', 'Abraham', 'Wiley', '9', 'Computer', 2, 1);
+
+
+INSERT INTO curriculum (row_id, degree, course, semester, subject_code, subject_name) VALUES
+(1, 'UG', 'Computer Science and Engineering', 4, 'CS6202', 'Operating Systems'),
+(4, 'UG', 'Electrical and  Electronics Engineering', 4, 'MA6201', 'Linear Algebra'),
+(5, 'UG', 'Computer Science and Engineering', 4, 'CS6106', 'Data Base Management System'),
+(6, 'UG', 'Computer Science and Engineering', 4, 'CS6107', 'Computer Architecture');
+
+INSERT INTO curriculum_books (row_id_book, subject_code, isbn) VALUES
+(3, 'MA6201', 1234),
+(6, 'CS6106', 1230),
+(7, 'CS6107', 1231);
+
+INSERT INTO issue (issue_id, rollno, isbn, issue_date, return_date) VALUES
+(2, 2022103507, 1230, '2024-05-01', '2024-05-18'),
+(3, 2022103507, 1230, '2024-05-17', '2024-05-18'),
+(4, 2022103507, 1230, '2024-05-17', '2024-05-18'),
+(5, 2022103507, 1230, '2024-05-17', '2024-05-18'),
+(6, 2022103507, 1230, '2024-05-17', '2024-05-18'),
+(7, 2022103507, 1230, '2024-05-18', '2024-05-18'),
+(8, 2022103002, 1230, '2024-05-18', '2024-05-19'),
+(9, 2022103507, 1230, '2024-05-18', '2024-05-18'),
+(10, 2022103507, 1230, '2024-05-18', '2024-05-18'),
+(11, 2022103507, 1230, '2024-05-18', '2024-05-18'),
+(12, 2022103507, 1230, '2024-05-18', '2024-05-18'),
+(13, 2022103507, 1230, '2024-05-18', '2024-05-18'),
+(14, 2022103002, 1230, '2024-05-19', '2024-05-19'),
+(17, 2022103002, 1230, '2024-05-19', '2024-05-19'),
+(18, 2022103002, 1230, '2024-05-19', '2024-05-19'),
+(19, 2022103507, 1230, '2024-05-19', '2024-05-19'),
+(20, 2022103507, 1230, '2024-05-19', '2024-05-19'),
+(21, 2022103507, 1230, '2024-05-19', '2024-05-19'),
+(23, 2022103507, 1230, '2024-05-20', '2024-05-20'),
+(24, 2022103507, 1230, '2024-05-20', '2024-05-20'),
+(25, 2022103507, 1230, '2024-05-21', '2024-05-21'),
+(26, 2022103002, 14789, '2024-05-21', NULL),
+(27, 2022103536, 14789, '2024-05-21', '2024-05-22'),
+(28, 2022101002, 1231, '2024-05-21', '2024-05-22'),
+(29, 2022101002, 1231, '2024-05-22', NULL),
+(30, 2022103536, 1231, '2024-05-22', '2024-05-22'),
+(31, 2022103536, 1231, '2024-05-22', NULL);
+
+INSERT INTO location (genre, location) VALUES
+('Chemistry', 'First floor'),
+('Civil', 'Second Floor'),
+('Computer', 'Ground Floor'),
+('Electrical', 'First floor'),
+('Mechanical', 'Second Floor');
+
+INSERT INTO readers (rollno, entry_time) VALUES
+(2022103002, '21:59:35'),
+(2022103507, '13:28:00'),
+(2022103536, '15:27:17');
+
+INSERT INTO students (rollno, firstname, lastname, email, phone, password, gender, degree, course, semester, fine) VALUES
+(2022101001, 'Rishikesh', 'M', 'rishi@gmail.com', 1234567890, 'Rishikesh', 'Male', 'UG', 'Information Technology', 3, 0),
+(2022101002, 'Karthika', 'P', 'karthika@gmail.com', 987654321, 'Karthika', 'Female', 'UG', 'Information Technology', 2, 0),
+(2022102001, 'Aniruthan', 'A', 'aniruthan@gmail.com', 321654987, 'Aniruthan', 'Male', 'UG', 'Electrical and  Electronics Engineering', 1, 0),
+(2022102002, 'Jaya', 'Harini', 'jayaharini@gmail.com', 3265987410, 'Jayaharini', 'Female', 'UG', 'Mechanical Engineering', 4, 0),
+(2022103002, 'Mathan', 'Kumar', 'mathankumar@gmail.com', 8888888854, 'pmathankumar', 'Male', 'UG', 'Civil Engineering', 6, 0),
+(2022103303, 'Mohammed', 'Irban', 'irban@gmail.com', 6379561918, 'Mohammedirban', 'Male', 'UG', 'Computer Science and Engineering', 4, 0),
+(2022103507, 'Sanjay', 'Ganesan', 'tgsanjay@gmail.com', 8148358788, 'zxcvbnm,', 'Male', 'UG', 'Electrical and  Electronics Engineering', 4, 10),
+(2022103536, 'Ragul', 'Kailash', 'ragulkailash2@gmail.com', 8667820060, 'Ragulkailash', 'Male', 'UG', 'Computer Science and Engineering', 4, 0),
+(2022104001, 'Sanjay', 'Hari', 'sanjayhari@gmail.com', 2451789630, 'Sanjayhari', 'Male', 'PG', 'Computer Science and Engineering', 1, 0),
+(2022105001, 'Dhanush', 'Ram', 'dhanushram@gmail.com', 3571596248, 'Dhanushram', 'Male', 'UG', 'Mechanical Engineering', 2, 0);
+
+CREATE OR REPLACE TRIGGER update_available_copies_insert AFTER INSERT ON issue
+FOR EACH ROW
+BEGIN   
+    UPDATE books SET availability = availability - 1 WHERE isbn = NEW.isbn;
+END;
+
+DELIMITER //
+
+CREATE OR REPLACE TRIGGER update_available_copies_update AFTER UPDATE ON issue
+FOR EACH ROW
+BEGIN
+    DECLARE days INT;
+    
+    IF (NEW.return_date IS NOT NULL AND OLD.return_date IS NULL) THEN
+        UPDATE books SET availability = availability + 1 WHERE isbn = NEW.isbn;
+        SET days = DATEDIFF(CURRENT_DATE(), DATE_ADD(NEW.issue_date, INTERVAL 14 DAY));
+        IF (days > 0) THEN
+            UPDATE students SET fine = fine + (days * 2) WHERE rollno = NEW.rollno;
+        END IF;
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE OR REPLACE TRIGGER update_no_of_copies_edit before UPDATE ON books
+FOR EACH ROW
+BEGIN
+    DECLARE n INT;
+    
+    IF (NEW.no_of_copies != OLD.no_of_copies) THEN
+        UPDATE books SET availability = availability + NEW.no_of_copies - OLD.no_of_copies WHERE isbn = OLD.isbn;
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE OR REPLACE TRIGGER update_rollno BEFORE UPDATE ON students
+FOR EACH ROW
+BEGIN
+	SET foreign_key_checks = 0;
+    UPDATE issue SET rollno = NEW.rollno WHERE rollno = OLD.rollno;
+	UPDATE readers SET rollno = NEW.rollno WHERE rollno = OLD.rollno;
+SET foreign_key_checks = 1;
+
+END
+//
+
+DELIMITER ;
+
+CREATE OR REPLACE VIEW books_curriculum_location AS
+SELECT 
+    b.isbn AS book_isbn, 
+    b.title AS book_title, 
+    b.author AS book_author, 
+    b.genre AS book_genre,
+    b.edition AS book_edition,
+    b.availability AS book_availability, 
+    b.publisher AS book_publisher,
+    c.subject_code AS curriculum_subject_code, 
+    c.subject_name AS curriculum_subject_name,
+    c.degree AS curriculum_degree, 
+    c.course AS curriculum_course,
+    c.semester AS curriculum_semester, 
+    cb.subject_code AS curriculum_books_subject_code, 
+    cb.isbn AS curriculum_books_isbn, 
+    l.location AS location_location, 
+    l.genre AS location_genre
+FROM books b
+JOIN curriculum_books cb ON cb.isbn = b.isbn
+JOIN curriculum c ON c.subject_code = cb.subject_code
+JOIN location l ON b.genre = l.genre
+ORDER BY c.subject_code, b.isbn;
+
+
+
+
+
+
